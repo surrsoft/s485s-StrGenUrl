@@ -145,6 +145,12 @@ header {
   color: #9ca3af;
 }
 
+.env-selected-name {
+  font-size: calc(11px * var(--sgu-scale, 1));
+  color: #94a3b8;
+  margin-top: 2px;
+}
+
 .env-select {
   width: 100%;
   padding: 5px 8px;

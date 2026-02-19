@@ -8,7 +8,8 @@ const DEFAULT_CONFIG_YAML = `projects:
         description: this is host
         values:
           - example.com
-          - test.example.com
+          - value: test.example.com
+            name: Test environment
       - name: ":subscriptionId"
         values:
           - "/1"
@@ -68,6 +69,16 @@ function buildPreviewHtml(result) {
   });
 }
 
+function normalizeValue(item) {
+  if (item === null || item === undefined) return null;
+  if (typeof item === 'object' && item !== null && !Array.isArray(item)) {
+    const val = 'value' in item ? String(item.value) : ('name' in item ? String(item.name) : null);
+    const name = item.name ? String(item.name) : null;
+    return val !== null ? { value: val, name } : null;
+  }
+  return { value: String(item), name: null };
+}
+
 // ── Rendering ────────────────────────────────────────────────────────────────
 
 function renderConfig(config) {
@@ -89,7 +100,8 @@ function renderConfig(config) {
     // Pre-select first value for each env
     (project.envs || []).forEach(env => {
       if (selections[pi][env.name] === undefined && env.values?.length > 0) {
-        selections[pi][env.name] = env.values[0];
+        const first = normalizeValue(env.values[0]);
+        if (first) selections[pi][env.name] = first.value;
       }
     });
 
@@ -122,20 +134,34 @@ function renderConfig(config) {
         const select = document.createElement('select');
         select.className = 'env-select';
 
-        (env.values || []).forEach(value => {
+        const normalizedValues = (env.values || []).map(v => normalizeValue(v)).filter(Boolean);
+        normalizedValues.forEach(({ value, name }) => {
           const opt = document.createElement('option');
-          opt.value = String(value);
-          opt.textContent = String(value);
-          if (String(value) === String(selections[pi][env.name])) opt.selected = true;
+          opt.value = value;
+          opt.textContent = name ? `${value} | ${name}` : value;
+          opt.setAttribute('data-name', name || '');
+          if (value === String(selections[pi][env.name])) opt.selected = true;
           select.appendChild(opt);
         });
 
+        const selectedNameEl = document.createElement('div');
+        selectedNameEl.className = 'env-selected-name';
+        const updateSelectedName = () => {
+          const opt = select.options[select.selectedIndex];
+          const name = (opt && opt.getAttribute('data-name')) || '';
+          selectedNameEl.textContent = name;
+          selectedNameEl.style.display = name ? 'block' : 'none';
+        };
+        updateSelectedName();
+
         select.addEventListener('change', () => {
           selections[pi][env.name] = select.value;
+          updateSelectedName();
           updatePreviews(pi);
         });
 
         envEl.appendChild(select);
+        envEl.appendChild(selectedNameEl);
         envsEl.appendChild(envEl);
       });
 

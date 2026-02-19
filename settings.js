@@ -8,7 +8,8 @@ const DEFAULT_CONFIG_YAML = `projects:
         description: this is host
         values:
           - example.com
-          - test.example.com
+          - value: test.example.com
+            name: Test environment
       - name: ":subscriptionId"
         values:
           - "/1"
@@ -154,6 +155,16 @@ function validateConfig(obj) {
         if (!Array.isArray(env.values) || env.values.length === 0) {
           throw new Error(`${elabel} ("${env.name}"): "values" must be a non-empty array.`);
         }
+        env.values.forEach((v, vi) => {
+          if (v === null || v === undefined) {
+            throw new Error(`${elabel}: values[${vi}] cannot be null or undefined.`);
+          }
+          if (typeof v === 'object' && v !== null && !Array.isArray(v)) {
+            if (!('value' in v) && !('name' in v)) {
+              throw new Error(`${elabel}: values[${vi}] object must have "value" or "name"`);
+            }
+          }
+        });
       });
     }
     if (project.patterns !== undefined) {

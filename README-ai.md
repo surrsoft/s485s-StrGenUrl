@@ -29,7 +29,7 @@
                         - отдельный блок представляющий переменную:
                             - заголовок, значение берётся из `!sgu-config!.projects.envs.name`
                             - подзаголовок, значение берётся из `!sgu-config!.projects.envs.description`
-                            - выпадающий список, значения берутся из `!sgu-config!.projects.envs.values`
+                            - выпадающий список, значения берутся из `!sgu-config!.projects.envs.values`; элемент values — примитив или объект `{value, name?}`; при наличии name он отображается в списке и под выпадающим списком при выборе
                 - область для паттернов:
                     - список блоков:
                         - отдельный блок представляющий паттерн:
@@ -86,6 +86,7 @@
 # пример !sgu-config!
 
 ```yaml
+# values: примитив или объект {value, name?}; name — подпись в списке и под выпадающим
 projects:
   - name: Project Example
     description: super app
@@ -94,15 +95,19 @@ projects:
         description: this is host
         values:
           - example.com
-          - test.example.com
+          - value: test.example.com
+            name: Test environment
       - name: "/:subscriptionId"
         values:
-          - 1
-          - 2
+          - value: "1"
+            name: Subscription 1
+          - value: "2"
+            name: Subscription 2
       - name: "qs1"
         values:
           - a=b
-          - c=d
+          - value: c=d
+            name: Option C
       - name: "qs2"
         values:
           - x=y

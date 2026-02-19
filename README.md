@@ -64,9 +64,10 @@ projects:
     envs:
       - name: "host"          # имя переменной — используется в шаблоне как {host}
         description: optional # подпись (необязательно)
-        values:               # список значений в выпадающем списке
+        values:               # примитив или {value, name?}; name — подпись в списке и под выпадающим
           - example.com
-          - staging.example.com
+          - value: staging.example.com
+            name: Staging
     patterns:
       - name: Main page       # название шаблона (необязательно)
         pattern: "https://{host}/dashboard"   # шаблон со вставками {имя_переменной}
@@ -85,8 +86,10 @@ projects:
       - name: env
         values:
           - api.example.com
-          - staging-api.example.com
-          - localhost:8080
+          - value: staging-api.example.com
+            name: Staging
+          - value: localhost:8080
+            name: Local
       - name: userId
         values:
           - 1001
