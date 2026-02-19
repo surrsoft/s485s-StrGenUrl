@@ -53,12 +53,42 @@ header {
   background: #e2e8f0;
 }
 
+.content-controls {
+  display: flex;
+  gap: 8px;
+  padding: 8px 14px;
+  background: #fff;
+  align-items: center;
+}
+
+.content-controls button {
+  background: none;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #64748b;
+  transition: all 0.15s;
+  font-family: inherit;
+  line-height: 1;
+}
+
+.content-controls button:hover {
+  background: #f8fafc;
+  color: #1e293b;
+  border-color: #cbd5e1;
+}
+
 #content {
   padding: 10px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  --sgu-scale: 1;
 }
+
 
 /* Project card */
 .project {
@@ -73,13 +103,13 @@ header {
 }
 
 .project-name {
-  font-size: 13px;
+  font-size: calc(13px * var(--sgu-scale, 1));
   font-weight: 600;
   color: #1e293b;
 }
 
 .project-desc {
-  font-size: 11px;
+  font-size: calc(11px * var(--sgu-scale, 1));
   color: #94a3b8;
   margin-top: 2px;
 }
@@ -105,13 +135,13 @@ header {
 }
 
 .env-name {
-  font-size: 12px;
+  font-size: calc(12px * var(--sgu-scale, 1));
   font-weight: 500;
   color: #374151;
 }
 
 .env-desc {
-  font-size: 11px;
+  font-size: calc(11px * var(--sgu-scale, 1));
   color: #9ca3af;
 }
 
@@ -120,7 +150,7 @@ header {
   padding: 5px 8px;
   border: 1px solid #e2e8f0;
   border-radius: 6px;
-  font-size: 12px;
+  font-size: calc(12px * var(--sgu-scale, 1));
   color: #1e293b;
   background: #f8fafc;
   cursor: pointer;
@@ -153,7 +183,7 @@ header {
 }
 
 .pattern-name {
-  font-size: 10px;
+  font-size: calc(10px * var(--sgu-scale, 1));
   font-weight: 600;
   color: #94a3b8;
   text-transform: uppercase;
@@ -162,7 +192,7 @@ header {
 
 .pattern-preview {
   font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
-  font-size: 11px;
+  font-size: calc(11px * var(--sgu-scale, 1));
   color: #1e293b;
   word-break: break-all;
   background: #fff;
@@ -194,7 +224,7 @@ header {
 }
 
 .pattern-details summary {
-  font-size: 11px;
+  font-size: calc(11px * var(--sgu-scale, 1));
   color: #94a3b8;
   cursor: pointer;
   user-select: none;
@@ -212,7 +242,7 @@ header {
 .pattern-raw {
   margin-top: 6px;
   font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
-  font-size: 11px;
+  font-size: calc(11px * var(--sgu-scale, 1));
   color: #64748b;
   background: #f1f5f9;
   border-radius: 5px;
@@ -232,7 +262,7 @@ header {
   padding: 4px 10px;
   border: none;
   border-radius: 5px;
-  font-size: 11px;
+  font-size: calc(11px * var(--sgu-scale, 1));
   font-weight: 500;
   cursor: pointer;
   transition: all 0.15s;
@@ -266,7 +296,7 @@ header {
   text-align: center;
   color: #94a3b8;
   padding: 32px 16px;
-  font-size: 13px;
+  font-size: calc(13px * var(--sgu-scale, 1));
   line-height: 1.7;
 }
 
@@ -282,7 +312,7 @@ header {
   border-radius: 8px;
   padding: 10px 12px;
   color: #dc2626;
-  font-size: 12px;
+  font-size: calc(12px * var(--sgu-scale, 1));
   line-height: 1.5;
   margin: 10px;
 }

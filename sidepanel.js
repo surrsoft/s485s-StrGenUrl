@@ -293,10 +293,47 @@ function esc(str) {
     .replace(/"/g, '&quot;');
 }
 
+// ── Font size controls ────────────────────────────────────────────────────────
+
+const FONT_SCALES = [0.55, 0.65, 0.75, 0.85, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.65, 1.8];
+const DEFAULT_FONT_INDEX = 5; // 1.0
+
+function applyFontLevel(index) {
+  const content = document.getElementById('content');
+  content.style.setProperty('--sgu-scale', String(FONT_SCALES[index]));
+}
+
+function initFontControls() {
+  let fontIndex = DEFAULT_FONT_INDEX;
+  chrome.storage.local.get(['fontIndex'], ({ fontIndex: stored }) => {
+    if (typeof stored === 'number' && stored >= 0 && stored < FONT_SCALES.length) {
+      fontIndex = stored;
+    }
+    applyFontLevel(fontIndex);
+  });
+
+  document.getElementById('fontDecreaseBtn').addEventListener('click', () => {
+    if (fontIndex > 0) {
+      fontIndex--;
+      applyFontLevel(fontIndex);
+      chrome.storage.local.set({ fontIndex });
+    }
+  });
+
+  document.getElementById('fontIncreaseBtn').addEventListener('click', () => {
+    if (fontIndex < FONT_SCALES.length - 1) {
+      fontIndex++;
+      applyFontLevel(fontIndex);
+      chrome.storage.local.set({ fontIndex });
+    }
+  });
+}
+
 // ── Init ─────────────────────────────────────────────────────────────────────
 
 document.getElementById('settingsBtn').addEventListener('click', () => {
   chrome.runtime.sendMessage({ action: 'openSettings' });
 });
 
+initFontControls();
 loadConfig();
