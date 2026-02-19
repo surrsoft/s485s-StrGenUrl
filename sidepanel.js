@@ -174,6 +174,19 @@ function renderConfig(config) {
         }
 
         patEl.appendChild(actions);
+
+        // Collapsible "Show pattern"
+        const details = document.createElement('details');
+        details.className = 'pattern-details';
+        const summary = document.createElement('summary');
+        summary.textContent = 'Show pattern';
+        const patternText = document.createElement('div');
+        patternText.className = 'pattern-raw';
+        patternText.textContent = pat.pattern;
+        details.appendChild(summary);
+        details.appendChild(patternText);
+        patEl.appendChild(details);
+
         patternsEl.appendChild(patEl);
       });
 
