@@ -409,6 +409,24 @@ document.getElementById('settingsBtn').addEventListener('click', () => {
   chrome.runtime.sendMessage({ action: 'openSettings' });
 });
 
+// ── Theme ─────────────────────────────────────────────────────────────────────
+
+function applyTheme(dark) {
+  document.body.classList.toggle('dark', dark);
+  document.getElementById('themeBtn').textContent = dark ? '◐' : '◑';
+}
+
+(function initTheme() {
+  chrome.storage.local.get(['darkTheme'], ({ darkTheme }) => {
+    applyTheme(!!darkTheme);
+  });
+  document.getElementById('themeBtn').addEventListener('click', () => {
+    const dark = !document.body.classList.contains('dark');
+    applyTheme(dark);
+    chrome.storage.local.set({ darkTheme: dark });
+  });
+})();
+
 document.addEventListener('click', () => {
   document.querySelectorAll('.env-custom-select.open').forEach(s => s.classList.remove('open'));
 });

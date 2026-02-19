@@ -30,7 +30,14 @@ header {
   letter-spacing: -0.01em;
 }
 
-#settingsBtn {
+.header-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+#settingsBtn,
+#themeBtn {
   background: none;
   border: 1px solid #e2e8f0;
   border-radius: 6px;
@@ -42,7 +49,8 @@ header {
   font-family: inherit;
 }
 
-#settingsBtn:hover {
+#settingsBtn:hover,
+#themeBtn:hover {
   background: #f8fafc;
   color: #1e293b;
   border-color: #cbd5e1;
@@ -387,4 +395,159 @@ header {
   font-size: calc(12px * var(--sgu-scale, 1));
   line-height: 1.5;
   margin: 10px;
+}
+
+/* ── Dark theme ──────────────────────────────────────────────────────────── */
+body.dark {
+  background: #0f172a;
+  color: #f1f5f9;
+}
+
+body.dark header {
+  background: #1e293b;
+}
+
+body.dark .header-title {
+  color: #f1f5f9;
+}
+
+body.dark #settingsBtn,
+body.dark #themeBtn {
+  border-color: #334155;
+  color: #94a3b8;
+}
+
+body.dark #settingsBtn:hover,
+body.dark #themeBtn:hover {
+  background: #293548;
+  color: #f1f5f9;
+  border-color: #475569;
+}
+
+body.dark .divider {
+  background: #334155;
+}
+
+body.dark .content-controls {
+  background: #1e293b;
+}
+
+body.dark .content-controls button {
+  border-color: #334155;
+  color: #94a3b8;
+}
+
+body.dark .content-controls button:hover {
+  background: #293548;
+  color: #f1f5f9;
+  border-color: #475569;
+}
+
+body.dark .project {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+body.dark .project-name {
+  color: #f1f5f9;
+}
+
+body.dark .project-desc {
+  color: #64748b;
+}
+
+body.dark .section-title {
+  color: #94a3b8;
+}
+
+body.dark .envs {
+  border-color: #334155;
+}
+
+body.dark .env {
+  background: #293548;
+  border-color: #334155;
+}
+
+body.dark .env-name {
+  color: #e2e8f0;
+}
+
+body.dark .env-desc {
+  color: #64748b;
+}
+
+body.dark .env-custom-trigger {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+body.dark .env-custom-trigger-value {
+  color: #f1f5f9;
+}
+
+body.dark .env-custom-trigger-name {
+  color: #64748b;
+}
+
+body.dark .env-custom-dropdown {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+body.dark .env-custom-option:hover {
+  background: #293548;
+}
+
+body.dark .env-custom-option.selected {
+  background: #1e3a5f;
+}
+
+body.dark .env-custom-option-value {
+  color: #f1f5f9;
+}
+
+body.dark .env-custom-option-name {
+  color: #64748b;
+}
+
+body.dark .patterns {
+  border-color: #334155;
+}
+
+body.dark .pattern {
+  background: #293548;
+  border-color: #334155;
+}
+
+body.dark .pattern-name {
+  color: #94a3b8;
+}
+
+body.dark .pattern-preview {
+  background: #1e293b;
+  border-color: #334155;
+  color: #e2e8f0;
+}
+
+body.dark .pattern-preview.has-unfilled {
+  color: #64748b;
+}
+
+body.dark .pattern-details summary {
+  color: #64748b;
+}
+
+body.dark .pattern-raw {
+  background: #0f172a;
+  color: #94a3b8;
+}
+
+body.dark .empty-state {
+  color: #64748b;
+}
+
+body.dark .error-state {
+  background: #2d1515;
+  border-color: #7f1d1d;
 }
