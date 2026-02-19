@@ -182,7 +182,10 @@ function renderConfig(config) {
         summary.textContent = 'Show pattern';
         const patternText = document.createElement('div');
         patternText.className = 'pattern-raw';
-        patternText.textContent = pat.pattern;
+        patternText.innerHTML = esc(pat.pattern).replace(
+          /\{([^}]+)\}/g,
+          (match) => `<span class="pattern-raw-placeholder">${match}</span>`
+        );
         details.appendChild(summary);
         details.appendChild(patternText);
         patEl.appendChild(details);

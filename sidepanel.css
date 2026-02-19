@@ -221,6 +221,13 @@ header {
   line-height: 1.5;
 }
 
+.pattern-raw-placeholder {
+  color: #d97706;
+  background: #fef3c7;
+  border-radius: 3px;
+  padding: 0 2px;
+}
+
 .btn {
   padding: 4px 10px;
   border: none;
