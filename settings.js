@@ -55,7 +55,7 @@ function colorValue(raw) {
   return `<span class="hl-value">${esc(raw)}</span>`;
 }
 
-function highlightYamlLine(line) {
+function highlightYamlLineContent(line) {
   // Empty line
   if (!line.trim()) return esc(line);
 
@@ -91,14 +91,91 @@ function highlightYamlLine(line) {
   return esc(line);
 }
 
+function highlightYamlLine(line, lineIndex, allLines) {
+  // Fold placeholder — render with unfold marker
+  const ph = parseFoldPlaceholder(line);
+  if (ph) {
+    return `<span class="fold-marker fold-closed" data-fold-id="${esc(ph.foldId)}" style="pointer-events:auto">▶</span>` +
+           `<span class="hl-fold-placeholder"> ${esc(line.trim())}</span>`;
+  }
+  const content = highlightYamlLineContent(line);
+  // Project entry — prepend fold-open marker
+  if (allLines && isProjectEntry(line)) {
+    return `<span class="fold-marker fold-open" data-line="${lineIndex}" style="pointer-events:auto">▼</span>` + content;
+  }
+  return content;
+}
+
 function highlightYaml(text) {
-  return text.split('\n').map(highlightYamlLine).join('\n');
+  const lines = text.split('\n');
+  return lines.map((line, idx) => highlightYamlLine(line, idx, lines)).join('\n');
 }
 
 // ── Editor Setup ─────────────────────────────────────────────────────────────
 
 const textarea = document.getElementById('editorTextarea');
 const pre = document.getElementById('editorPre');
+
+// ── Fold State ────────────────────────────────────────────────────────────────
+
+const foldMap = new Map(); // foldId → string[] (original block lines)
+let foldIdCounter = 0;
+function generateFoldId() { return `f${Date.now()}_${foldIdCounter++}`; }
+
+function countLeadingSpaces(line) { return line.match(/^(\s*)/)[1].length; }
+
+function isProjectEntry(line) { return /^  - name\s*:/.test(line); }
+
+function parseFoldPlaceholder(line) {
+  const m = line.match(/^\s*#\s*\[fold:([^\]]+)\]\s+(.+?)\s*\(\+\d+ lines\)$/);
+  return m ? { foldId: m[1], projectName: m[2] } : null;
+}
+
+function getProjectBlockBounds(lines, startIdx) {
+  const indent = countLeadingSpaces(lines[startIdx]);
+  let i = startIdx + 1;
+  while (i < lines.length) {
+    const l = lines[i];
+    if (l.trim() === '') { i++; continue; }
+    if (countLeadingSpaces(l) > indent) { i++; continue; }
+    break;
+  }
+  return i - 1;
+}
+
+function foldBlock(lineIndex) {
+  const lines = textarea.value.split('\n');
+  if (!isProjectEntry(lines[lineIndex])) return;
+  const endIdx = getProjectBlockBounds(lines, lineIndex);
+  const blockLines = lines.slice(lineIndex, endIdx + 1);
+  const hiddenCount = blockLines.length - 1;
+  if (hiddenCount === 0) return;
+  const foldId = generateFoldId();
+  foldMap.set(foldId, blockLines);
+  const name = lines[lineIndex].match(/- name\s*:\s*(.+)$/)?.[1]?.trim() ?? 'Project';
+  const placeholder = `  # [fold:${foldId}] ${name} (+${hiddenCount} lines)`;
+  textarea.value = [...lines.slice(0, lineIndex), placeholder, ...lines.slice(endIdx + 1)].join('\n');
+  updateHighlight();
+}
+
+function unfoldBlock(foldId) {
+  const original = foldMap.get(foldId);
+  if (!original) return;
+  const lines = textarea.value.split('\n');
+  const idx = lines.findIndex(l => l.includes(`[fold:${foldId}]`));
+  if (idx === -1) { foldMap.delete(foldId); return; }
+  textarea.value = [...lines.slice(0, idx), ...original, ...lines.slice(idx + 1)].join('\n');
+  foldMap.delete(foldId);
+  updateHighlight();
+}
+
+function unfoldAll() {
+  while (foldMap.size > 0) {
+    unfoldBlock(foldMap.keys().next().value);
+  }
+}
+
+// ── Editor Setup ──────────────────────────────────────────────────────────────
 
 function updateHighlight() {
   // Trailing newline: pre needs a blank line to stay in sync with textarea height
@@ -111,6 +188,17 @@ textarea.addEventListener('input', updateHighlight);
 textarea.addEventListener('scroll', () => {
   pre.scrollTop = textarea.scrollTop;
   pre.scrollLeft = textarea.scrollLeft;
+});
+
+// Fold/unfold on marker click
+pre.addEventListener('click', (e) => {
+  const marker = e.target.closest('.fold-marker');
+  if (!marker) return;
+  if (marker.classList.contains('fold-open')) {
+    foldBlock(parseInt(marker.dataset.line, 10));
+  } else if (marker.classList.contains('fold-closed')) {
+    unfoldBlock(marker.dataset.foldId);
+  }
 });
 
 // Tab key → insert 2 spaces
@@ -194,6 +282,7 @@ function clearMessage() {
 // ── Save / Load ──────────────────────────────────────────────────────────────
 
 function saveConfig() {
+  unfoldAll();
   const yaml = textarea.value.trim();
   if (!yaml) {
     showMessage('Config is empty.', 'error');
@@ -238,6 +327,7 @@ function loadConfig() {
 
 function resetToDefault() {
   if (confirm('Reset configuration to the built-in example? Current config will be lost.')) {
+    foldMap.clear();
     textarea.value = DEFAULT_CONFIG_YAML;
     updateHighlight();
     clearMessage();

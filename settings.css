@@ -200,3 +200,21 @@ header p {
 }
 
 .schema-hint code { font-family: inherit; }
+
+/* Fold markers */
+.fold-marker {
+  display: inline-block;
+  cursor: pointer;
+  user-select: none;
+  font-size: 10px;
+  line-height: 1;
+  margin-right: 4px;
+  vertical-align: middle;
+  opacity: 0.5;
+  transition: opacity 0.15s, color 0.15s;
+  color: #cba6f7;
+}
+
+.fold-marker:hover { opacity: 1; color: #89b4fa; }
+
+.hl-fold-placeholder { color: #585b70; font-style: italic; }
