@@ -9,10 +9,10 @@ const DEFAULT_CONFIG_YAML = `projects:
         values:
           - example.com
           - test.example.com
-      - name: "/:subscriptionId"
+      - name: ":subscriptionId"
         values:
-          - 1
-          - 2
+          - "/1"
+          - "/2"
       - name: "qs1"
         values:
           - a=b
@@ -22,10 +22,10 @@ const DEFAULT_CONFIG_YAML = `projects:
           - x=y
           - z=w
     patterns:
-      - pattern: "https://{host}/base/{/:subscriptionId}?{qs1}&{qs2}"
+      - pattern: "https://{host}/base{:subscriptionId}?{qs1}&{qs2}"
         type: url
         name: subscriptions page
-      - pattern: "{host}/base/{/:subscriptionId}"
+      - pattern: "{host}/base{:subscriptionId}"
         type: str
         name: path only
 `;
