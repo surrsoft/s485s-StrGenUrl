@@ -99,10 +99,13 @@ function highlightYaml(text) {
 
 const textarea = document.getElementById('editorTextarea');
 const pre = document.getElementById('editorPre');
+const editorWrapper = document.getElementById('editorWrapper');
 
 function updateHighlight() {
   // Trailing newline: pre needs a blank line to stay in sync with textarea height
   pre.innerHTML = highlightYaml(textarea.value) + '\n';
+  // Подстраиваем высоту под контент
+  editorWrapper.style.height = Math.max(300, pre.scrollHeight) + 'px';
 }
 
 textarea.addEventListener('input', updateHighlight);
@@ -268,6 +271,7 @@ function initFontControls() {
       fontIndex--;
       applyFontLevel(fontIndex);
       chrome.storage.local.set({ fontIndex });
+      updateHighlight();
     }
   });
 
@@ -276,6 +280,7 @@ function initFontControls() {
       fontIndex++;
       applyFontLevel(fontIndex);
       chrome.storage.local.set({ fontIndex });
+      updateHighlight();
     }
   });
 }

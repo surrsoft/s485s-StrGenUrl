@@ -65,7 +65,8 @@ header p {
 .editor-wrapper {
   position: relative;
   border-radius: 10px;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: visible;
   min-height: 300px;
   box-shadow: 0 1px 3px rgba(0,0,0,.12), 0 0 0 1px rgba(0,0,0,.06);
 }
@@ -84,7 +85,8 @@ header p {
   line-height: 1.65;
   tab-size: 2;
   white-space: pre;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: auto;
   border: none;
   outline: none;
   resize: none;
@@ -92,9 +94,6 @@ header p {
 }
 
 .editor-pre {
-  position: relative;
-  height: auto;
-  min-height: inherit;
   color: #cdd6f4;
   background: #1e1e2e;
   pointer-events: none;
