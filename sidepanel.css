@@ -155,23 +155,77 @@ header {
   margin-top: 2px;
 }
 
-.env-select {
+.env-custom-select {
+  position: relative;
+}
+
+.env-custom-trigger {
   width: 100%;
   padding: 5px 8px;
   border: 1px solid #e2e8f0;
   border-radius: 6px;
-  font-size: calc(12px * var(--sgu-scale, 1));
-  color: #1e293b;
-  background: #f8fafc;
+  background: #fff;
   cursor: pointer;
-  outline: none;
-  font-family: inherit;
   transition: border-color 0.15s;
+  box-sizing: border-box;
 }
 
-.env-select:focus {
+.env-custom-select.open .env-custom-trigger {
   border-color: #6366f1;
+}
+
+.env-custom-trigger-value {
+  font-size: calc(12px * var(--sgu-scale, 1));
+  color: #1e293b;
+}
+
+.env-custom-trigger-name {
+  font-size: calc(10px * var(--sgu-scale, 1));
+  color: #94a3b8;
+  margin-top: 1px;
+}
+
+.env-custom-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
   background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  z-index: 100;
+  overflow: hidden;
+}
+
+.env-custom-select.open .env-custom-dropdown {
+  display: block;
+}
+
+.env-custom-option {
+  padding: 6px 8px;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.env-custom-option:hover {
+  background: #f8fafc;
+}
+
+.env-custom-option.selected {
+  background: #eff6ff;
+}
+
+.env-custom-option-value {
+  font-size: calc(12px * var(--sgu-scale, 1));
+  color: #1e293b;
+}
+
+.env-custom-option-name {
+  font-size: calc(10px * var(--sgu-scale, 1));
+  color: #94a3b8;
+  margin-top: 1px;
 }
 
 /* Patterns section */

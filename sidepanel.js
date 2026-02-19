@@ -131,37 +131,75 @@ function renderConfig(config) {
           ${env.description ? `<span class="env-desc">${esc(env.description)}</span>` : ''}`;
         envEl.appendChild(labelEl);
 
-        const select = document.createElement('select');
-        select.className = 'env-select';
-
         const normalizedValues = (env.values || []).map(v => normalizeValue(v)).filter(Boolean);
-        normalizedValues.forEach(({ value, name }) => {
-          const opt = document.createElement('option');
-          opt.value = value;
-          opt.textContent = name ? `${value} | ${name}` : value;
-          opt.setAttribute('data-name', name || '');
-          if (value === String(selections[pi][env.name])) opt.selected = true;
-          select.appendChild(opt);
-        });
+        const currentVal = String(selections[pi][env.name] ?? '');
 
-        const selectedNameEl = document.createElement('div');
-        selectedNameEl.className = 'env-selected-name';
-        const updateSelectedName = () => {
-          const opt = select.options[select.selectedIndex];
-          const name = (opt && opt.getAttribute('data-name')) || '';
-          selectedNameEl.textContent = name;
-          selectedNameEl.style.display = name ? 'block' : 'none';
+        const customSelect = document.createElement('div');
+        customSelect.className = 'env-custom-select';
+
+        const trigger = document.createElement('div');
+        trigger.className = 'env-custom-trigger';
+
+        const updateTrigger = (value, name) => {
+          trigger.innerHTML = '';
+          const valEl = document.createElement('div');
+          valEl.className = 'env-custom-trigger-value';
+          valEl.textContent = value;
+          trigger.appendChild(valEl);
+          if (name) {
+            const nameEl = document.createElement('div');
+            nameEl.className = 'env-custom-trigger-name';
+            nameEl.textContent = name;
+            trigger.appendChild(nameEl);
+          }
         };
-        updateSelectedName();
 
-        select.addEventListener('change', () => {
-          selections[pi][env.name] = select.value;
-          updateSelectedName();
-          updatePreviews(pi);
+        const dropdownEl = document.createElement('div');
+        dropdownEl.className = 'env-custom-dropdown';
+
+        normalizedValues.forEach(({ value, name }) => {
+          const isSelected = value === currentVal;
+          if (isSelected) updateTrigger(value, name || '');
+
+          const optEl = document.createElement('div');
+          optEl.className = 'env-custom-option' + (isSelected ? ' selected' : '');
+
+          const valEl = document.createElement('div');
+          valEl.className = 'env-custom-option-value';
+          valEl.textContent = value;
+          optEl.appendChild(valEl);
+
+          if (name) {
+            const nameEl = document.createElement('div');
+            nameEl.className = 'env-custom-option-name';
+            nameEl.textContent = name;
+            optEl.appendChild(nameEl);
+          }
+
+          optEl.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdownEl.querySelectorAll('.env-custom-option').forEach(o => o.classList.remove('selected'));
+            optEl.classList.add('selected');
+            selections[pi][env.name] = value;
+            updateTrigger(value, name || '');
+            customSelect.classList.remove('open');
+            updatePreviews(pi);
+          });
+
+          dropdownEl.appendChild(optEl);
         });
 
-        envEl.appendChild(select);
-        envEl.appendChild(selectedNameEl);
+        trigger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          document.querySelectorAll('.env-custom-select.open').forEach(s => {
+            if (s !== customSelect) s.classList.remove('open');
+          });
+          customSelect.classList.toggle('open');
+        });
+
+        customSelect.appendChild(trigger);
+        customSelect.appendChild(dropdownEl);
+        envEl.appendChild(customSelect);
         envsEl.appendChild(envEl);
       });
 
@@ -359,6 +397,10 @@ function initFontControls() {
 
 document.getElementById('settingsBtn').addEventListener('click', () => {
   chrome.runtime.sendMessage({ action: 'openSettings' });
+});
+
+document.addEventListener('click', () => {
+  document.querySelectorAll('.env-custom-select.open').forEach(s => s.classList.remove('open'));
 });
 
 initFontControls();
