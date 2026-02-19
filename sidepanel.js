@@ -199,6 +199,14 @@ function renderConfig(config) {
           document.querySelectorAll('.env-custom-select.open').forEach(s => {
             if (s !== customSelect) s.classList.remove('open');
           });
+          if (!customSelect.classList.contains('open')) {
+            customSelect.classList.add('measuring');
+            const dropH = dropdownEl.offsetHeight;
+            customSelect.classList.remove('measuring');
+            const rect = trigger.getBoundingClientRect();
+            const spaceBelow = window.innerHeight - rect.bottom;
+            customSelect.classList.toggle('drop-up', spaceBelow < dropH + 8);
+          }
           customSelect.classList.toggle('open');
         });
 

@@ -220,6 +220,16 @@ header {
   display: block;
 }
 
+.env-custom-select.measuring .env-custom-dropdown {
+  display: block;
+  visibility: hidden;
+}
+
+.env-custom-select.drop-up .env-custom-dropdown {
+  top: auto;
+  bottom: calc(100% + 4px);
+}
+
 .env-custom-option {
   padding: 6px 8px;
   cursor: pointer;
