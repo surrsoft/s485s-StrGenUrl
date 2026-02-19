@@ -121,6 +121,11 @@ function renderConfig(config) {
       const envsEl = document.createElement('div');
       envsEl.className = 'envs';
 
+      const envsTitleEl = document.createElement('div');
+      envsTitleEl.className = 'section-title';
+      envsTitleEl.textContent = 'Переменные';
+      envsEl.appendChild(envsTitleEl);
+
       project.envs.forEach(env => {
         const envEl = document.createElement('div');
         envEl.className = 'env';
@@ -210,6 +215,11 @@ function renderConfig(config) {
     if (project.patterns?.length > 0) {
       const patternsEl = document.createElement('div');
       patternsEl.className = 'patterns';
+
+      const patternsTitleEl = document.createElement('div');
+      patternsTitleEl.className = 'section-title';
+      patternsTitleEl.textContent = 'Шаблоны';
+      patternsEl.appendChild(patternsTitleEl);
 
       project.patterns.forEach((pat, pati) => {
         const patEl = document.createElement('div');

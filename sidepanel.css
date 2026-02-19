@@ -114,6 +114,14 @@ header {
   margin-top: 2px;
 }
 
+.section-title {
+  font-size: calc(11px * var(--sgu-scale, 1));
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 4px;
+  text-align: center;
+}
+
 /* Envs section */
 .envs {
   padding: 8px 12px;
