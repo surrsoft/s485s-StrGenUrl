@@ -13,18 +13,6 @@
       <p>Edit your configuration in YAML format below.</p>
     </header>
 
-    <div class="editor-wrapper" id="editorWrapper">
-      <pre class="editor-pre" id="editorPre" aria-hidden="true"></pre>
-      <textarea
-        class="editor-textarea"
-        id="editorTextarea"
-        spellcheck="false"
-        autocorrect="off"
-        autocapitalize="off"
-        placeholder="Enter YAML configuration..."
-      ></textarea>
-    </div>
-
     <div class="controls">
       <button class="btn btn-primary" id="saveBtn">Save</button>
       <button class="btn btn-secondary" id="resetBtn">Reset to Default</button>
@@ -47,6 +35,18 @@
         type: url             # required — "url" (enables Open) or "str"
         name: My Pattern      # optional — label shown above preview</code></pre>
     </details>
+
+    <div class="editor-wrapper" id="editorWrapper">
+      <pre class="editor-pre" id="editorPre" aria-hidden="true"></pre>
+      <textarea
+        class="editor-textarea"
+        id="editorTextarea"
+        spellcheck="false"
+        autocorrect="off"
+        autocapitalize="off"
+        placeholder="Enter YAML configuration..."
+      ></textarea>
+    </div>
   </div>
 
   <script src="lib/js-yaml.min.js"></script>
