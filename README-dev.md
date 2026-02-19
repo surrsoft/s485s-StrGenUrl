@@ -29,6 +29,10 @@
 
 ---
 
+## Ветки
+
+- см. https://gist.github.com/surrsoft/c1e9ae5a75c70c558fb695da4eb2b853 
+
 ## Установка (режим разработчика)
 
 1. Открыть Chrome → `chrome://extensions/`
