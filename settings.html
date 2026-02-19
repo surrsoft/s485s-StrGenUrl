@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>s485s StrGenUrl — Settings</title>
+  <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+  <div class="page">
+    <header>
+      <h1>s485s StrGenUrl</h1>
+      <p>Edit your configuration in YAML format below.</p>
+    </header>
+
+    <div class="editor-wrapper" id="editorWrapper">
+      <pre class="editor-pre" id="editorPre" aria-hidden="true"></pre>
+      <textarea
+        class="editor-textarea"
+        id="editorTextarea"
+        spellcheck="false"
+        autocorrect="off"
+        autocapitalize="off"
+        placeholder="Enter YAML configuration..."
+      ></textarea>
+    </div>
+
+    <div class="controls">
+      <button class="btn btn-primary" id="saveBtn">Save</button>
+      <button class="btn btn-secondary" id="resetBtn">Reset to Default</button>
+      <span class="message" id="message"></span>
+    </div>
+
+    <details class="schema-hint">
+      <summary>Config format reference</summary>
+      <pre><code>projects:
+  - name: My Project          # required
+    description: optional     # optional
+    envs:
+      - name: "varName"       # required — used in patterns as {varName}
+        description: optional # optional
+        values:               # required — list of selectable values
+          - value1
+          - value2
+    patterns:
+      - pattern: "https://{varName}/path"  # required — {varName} placeholders
+        type: url             # required — "url" (enables Open) or "str"
+        name: My Pattern      # optional — label shown above preview</code></pre>
+    </details>
+  </div>
+
+  <script src="lib/js-yaml.min.js"></script>
+  <script src="settings.js"></script>
+</body>
+</html>

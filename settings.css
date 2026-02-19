@@ -1,0 +1,200 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f1f5f9;
+  color: #1e293b;
+  min-height: 100vh;
+  padding-bottom: 40px;
+}
+
+.page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Header */
+header h1 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 4px;
+}
+
+header p {
+  font-size: 13px;
+  color: #64748b;
+}
+
+/* Editor */
+.editor-wrapper {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 520px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.12), 0 0 0 1px rgba(0,0,0,.06);
+}
+
+.editor-pre,
+.editor-textarea {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 16px 18px;
+  margin: 0;
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', Consolas, 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.65;
+  tab-size: 2;
+  white-space: pre;
+  overflow: auto;
+  border: none;
+  outline: none;
+  resize: none;
+  word-wrap: normal;
+}
+
+.editor-pre {
+  color: #cdd6f4;
+  background: #1e1e2e;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.editor-textarea {
+  background: transparent;
+  color: transparent;
+  caret-color: #cdd6f4;
+  z-index: 1;
+}
+
+.editor-textarea::selection {
+  background: rgba(137, 180, 250, 0.25);
+  color: transparent;
+}
+
+/* YAML syntax colors — Catppuccin Mocha */
+.hl-comment { color: #585b70; font-style: italic; }
+.hl-key     { color: #89b4fa; }
+.hl-punct   { color: #cba6f7; }
+.hl-string  { color: #a6e3a1; }
+.hl-number  { color: #fab387; }
+.hl-bool    { color: #f38ba8; }
+.hl-null    { color: #f38ba8; }
+.hl-value   { color: #cdd6f4; }
+.hl-dash    { color: #cba6f7; }
+
+/* Controls */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+
+.btn-primary {
+  background: #6366f1;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #4f46e5;
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: #e2e8f0;
+  color: #374151;
+}
+
+.btn-secondary:hover {
+  background: #cbd5e1;
+}
+
+.message {
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.message.visible {
+  opacity: 1;
+}
+
+.message.success {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.message.error {
+  background: #fee2e2;
+  color: #dc2626;
+  white-space: pre-wrap;
+  max-width: 500px;
+}
+
+/* Schema hint */
+.schema-hint {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px 16px;
+}
+
+.schema-hint summary {
+  font-size: 13px;
+  font-weight: 500;
+  color: #6366f1;
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  list-style: none;
+}
+
+.schema-hint summary::-webkit-details-marker { display: none; }
+.schema-hint summary::before { content: '▶ '; font-size: 10px; }
+.schema-hint[open] summary::before { content: '▼ '; }
+
+.schema-hint pre {
+  margin-top: 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 14px;
+  font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  overflow-x: auto;
+  white-space: pre;
+  color: #374151;
+}
+
+.schema-hint code { font-family: inherit; }
