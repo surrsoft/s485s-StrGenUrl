@@ -128,6 +128,33 @@ function generateResult(pattern, projectSelections) {
 
 Плейсхолдеры `{имя}` заменяются на выбранное значение. Если значение не выбрано — плейсхолдер остаётся и подсвечивается оранжевым в превью.
 
+### Нормализация URL
+
+Для шаблонов с `type: url` результат после подстановки пропускается через `normalizeUrl()`:
+
+```js
+function normalizeUrl(url) {
+  url = url.replace(/([^:])\/\/+/g, '$1/'); // двойные слэши → один (кроме ://)
+  url = url.replace(/&{2,}/g, '&');         // несколько && → один &
+  url = url.replace(/\?&+/g, '?');          // ?&foo → ?foo
+  url = url.replace(/&+$/, '');             // убирает & на конце
+  url = url.replace(/\?$/, '');             // убирает ? на конце
+  return url;
+}
+```
+
+Это устраняет артефакты, возникающие когда значение переменной пустое или содержит лишние символы. Примеры:
+
+| До нормализации | После |
+|---|---|
+| `https://example.com//path` | `https://example.com/path` |
+| `https://example.com?&foo=1` | `https://example.com?foo=1` |
+| `https://example.com?a=1&&b=2` | `https://example.com?a=1&b=2` |
+| `https://example.com?a=1&` | `https://example.com?a=1` |
+| `https://example.com?` | `https://example.com` |
+
+Нормализация применяется и в `renderConfig()`, и в `updatePreviews()`.
+
 ### Состояние
 
 ```js
