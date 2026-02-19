@@ -43,6 +43,20 @@ function generateResult(pattern, projectSelections) {
   });
 }
 
+function normalizeUrl(url) {
+  // Fix multiple consecutive slashes, but preserve protocol (://)
+  url = url.replace(/([^:])\/\/+/g, '$1/');
+  // Fix multiple consecutive &
+  url = url.replace(/&{2,}/g, '&');
+  // Remove leading & after ? (?&foo → ?foo)
+  url = url.replace(/\?&+/g, '?');
+  // Remove trailing &
+  url = url.replace(/&+$/, '');
+  // Remove trailing ?
+  url = url.replace(/\?$/, '');
+  return url;
+}
+
 function hasUnfilled(result, pattern) {
   return /\{[^}]+\}/.test(result);
 }
@@ -145,7 +159,8 @@ function renderConfig(config) {
           patEl.appendChild(nameEl);
         }
 
-        const result = generateResult(pat.pattern, selections[pi]);
+        let result = generateResult(pat.pattern, selections[pi]);
+        if (pat.type === 'url') result = normalizeUrl(result);
         const unfilled = hasUnfilled(result);
 
         const preview = document.createElement('div');
@@ -211,7 +226,8 @@ function updatePreviews(pi) {
     const pat = project.patterns?.[pati];
     if (!pat) return;
 
-    const result = generateResult(pat.pattern, selections[pi]);
+    let result = generateResult(pat.pattern, selections[pi]);
+    if (pat.type === 'url') result = normalizeUrl(result);
     const unfilled = hasUnfilled(result);
 
     const preview = patEl.querySelector('.pattern-preview');
