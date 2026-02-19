@@ -99,7 +99,7 @@ header {
 }
 
 .project-header {
-  padding: 10px 12px 0;
+  padding: 10px 12px 8px;
 }
 
 .project-name {
@@ -124,6 +124,7 @@ header {
 
 /* Envs section */
 .envs {
+  border-top: 1px solid #f1f5f9;
   padding: 8px 12px;
   display: flex;
   flex-direction: column;
