@@ -106,6 +106,18 @@ chrome.storage.sync
 
 ### background.js
 
+При старте service worker определяет режим открытия расширения:
+
+```js
+if (chrome.sidePanel) {
+  chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true });
+} else {
+  chrome.action.setPopup({ popup: 'sidepanel.html' });
+}
+```
+
+Если браузер поддерживает Side Panel API (Chrome 114+) — клик по иконке открывает боковую панель. Иначе (например, Яндекс Браузер) — `sidepanel.html` открывается как стандартный popup.
+
 Service worker обрабатывает два сообщения:
 
 | `message.action` | Действие |
@@ -192,6 +204,21 @@ let currentConfig = null;
 - Скролл синхронизируется через `scroll`-событие textarea
 
 Подсветка (`highlightYaml`) — собственный простой токенизатор для YAML, без внешних зависимостей. Цветовая схема: **Catppuccin Mocha**.
+
+### Сворачивание блоков проектов
+
+Строки `  - name: ...` в редакторе отображаются с кликабельным маркером `▼`. Клик сворачивает весь блок проекта в одну строку-заглушку:
+
+```
+  # [fold:f1234_0] Project Name (+12 lines)
+```
+
+Клик по `▶` на заглушке восстанавливает блок. Реализовано через:
+
+- `foldMap: Map<foldId, string[]>` — хранит оригинальные строки свёрнутых блоков
+- Маркеры рендерятся внутри `<pre>` как `<span style="pointer-events:auto">` — кликабельны, несмотря на `pointer-events: none` на самом `<pre>`
+- При сворачивании/разворачивании `textarea.value` модифицируется напрямую
+- `saveConfig()` вызывает `unfoldAll()` перед сохранением — в storage всегда попадает полный YAML
 
 ### Валидация конфига
 
