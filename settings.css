@@ -19,18 +19,45 @@ body {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  --sgu-scale: 1;
+}
+
+.content-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.content-controls button {
+  background: none;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #64748b;
+  transition: all 0.15s;
+  font-family: inherit;
+  line-height: 1;
+}
+
+.content-controls button:hover {
+  background: #f8fafc;
+  color: #1e293b;
+  border-color: #cbd5e1;
 }
 
 /* Header */
 header h1 {
-  font-size: 20px;
+  font-size: calc(20px * var(--sgu-scale, 1));
   font-weight: 700;
   color: #1e293b;
   margin-bottom: 4px;
 }
 
 header p {
-  font-size: 13px;
+  font-size: calc(13px * var(--sgu-scale, 1));
   color: #64748b;
 }
 
@@ -53,7 +80,7 @@ header p {
   padding: 16px 18px;
   margin: 0;
   font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', Consolas, 'Courier New', monospace;
-  font-size: 13px;
+  font-size: calc(13px * var(--sgu-scale, 1));
   line-height: 1.65;
   tab-size: 2;
   white-space: pre;
@@ -109,7 +136,7 @@ header p {
   padding: 8px 20px;
   border: none;
   border-radius: 8px;
-  font-size: 13px;
+  font-size: calc(13px * var(--sgu-scale, 1));
   font-weight: 500;
   cursor: pointer;
   transition: all 0.15s;
@@ -140,7 +167,7 @@ header p {
 }
 
 .message {
-  font-size: 12px;
+  font-size: calc(12px * var(--sgu-scale, 1));
   padding: 6px 12px;
   border-radius: 6px;
   opacity: 0;
@@ -172,7 +199,7 @@ header p {
 }
 
 .schema-hint summary {
-  font-size: 13px;
+  font-size: calc(13px * var(--sgu-scale, 1));
   font-weight: 500;
   color: #6366f1;
   cursor: pointer;
@@ -192,7 +219,7 @@ header p {
   border-radius: 8px;
   padding: 14px;
   font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
-  font-size: 12px;
+  font-size: calc(12px * var(--sgu-scale, 1));
   line-height: 1.6;
   overflow-x: auto;
   white-space: pre;
