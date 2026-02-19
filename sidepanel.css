@@ -126,6 +126,10 @@ header {
   display: flex;
   flex-direction: column;
   gap: 3px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 8px 10px;
 }
 
 .env-label {
@@ -181,6 +185,7 @@ header {
 
 .pattern {
   background: #f8fafc;
+  border: 1px solid #e2e8f0;
   border-radius: 8px;
   padding: 8px 10px;
   display: flex;
